@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Fire Sensitivity Hub - แจกตั้งค่าความไวทุกรุ่น</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-red-600 via-orange-600 to-yellow-600 p-6 text-center shadow-lg">
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-wider text-white">🔥 FREE FIRE SENSITIVITY HUB 🔥</h1>
+        <p class="text-sm md:text-base mt-2 text-gray-100">แจกตั้งค่าการตอบสนอง ลากไว ลากคม ทุกรุ่น (iOS & Android)</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto p-4 md:p-6">
+        <!-- Search & Brand Filter -->
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 md:p-6 shadow-xl mb-6">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-300 mb-2">ค้นหารุ่นมือถือของคุณ:</label>
+                <input type="text" id="searchInput" placeholder="พิมพ์ชื่อรุ่น เช่น iPhone 18 Pro Max, Poco F6, S24 Ultra..." class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-500">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">เลือกหมวดหมู่ / แบรนด์:</label>
+                <div class="flex flex-wrap gap-2" id="brandFilters">
+                    <button onclick="filterBrand('all', event)" class="brand-btn px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium transition hover:bg-red-500">ทั้งหมด</button>
+                    <button onclick="filterBrand('iOS', event)" class="brand-btn px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium transition hover:bg-gray-700">iOS (iPhone)</button>
+                    <button onclick="filterBrand('Samsung', event)" class="brand-btn px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium transition hover:bg-gray-700">Samsung</button>
+                    <button onclick="filterBrand('Xiaomi', event)" class="brand-btn px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium transition hover:bg-gray-700">Xiaomi / Poco</button>
+                    <button onclick="filterBrand('OPPO', event)" class="brand-btn px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium transition hover:bg-gray-700">OPPO / realme / OnePlus</button>
+                    <button onclick="filterBrand('vivo', event)" class="brand-btn px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium transition hover:bg-gray-700">vivo / iQOO</button>
+                    <button onclick="filterBrand('Other', event)" class="brand-btn px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium transition hover:bg-gray-700">RedMagic / Tecno</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model List & Settings Display -->
+        <div id="modelContainer" class="space-y-6">
+            <!-- Dynamic content loaded via JS -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-gray-500 text-sm border-t border-gray-900 mt-10">
+        <p>&copy; 2026 Free Fire Sensitivity Hub. โฮสต์ฟรีด้วย GitHub Pages</p>
+    </footer>
+
+    <script>
+        const modelsData = [
+            { name: "iPhone 18 Pro Max", brand: "iOS", gen: "เรือธงล่าสุด ทัชเนียนกริบ" },
+            { name: "iPhone 17 Pro / 17", brand: "iOS", gen: "รุ่นใหม่ล่าสุด ลากหัวคมๆ" },
+            { name: "iPhone 16 Pro Max / 16", brand: "iOS", gen: "ยอดฮิต สเปกแรง" },
+            { name: "iPhone 15 Pro Max / 15", brand: "iOS", gen: "ยอดนิยม ทัชลื่น" },
+            { name: "iPhone 14 / 13 / 12 / 11 / X / 8 / 7", brand: "iOS", gen: "รุ่นคลาสสิกถึงรุ่นยอดนิยม" },
+            { name: "Samsung Galaxy S Series (S24 / S25 / S26 Ultra)", brand: "Samsung", gen: "เรือธงแอนดรอยด์ จอ 120Hz" },
+            { name: "Samsung Galaxy A Series (A55 / A35 / A54)", brand: "Samsung", gen: "รุ่นกลางยอดนิยม เล่นลื่น" },
+            { name: "Poco F6 / X6 Pro / F5", brand: "Xiaomi", gen: "สายเกมมิ่งตัวคุ้ม ชิปแรง" },
+            { name: "Xiaomi 14 / Redmi Note 13 Pro", brand: "Xiaomi", gen: "สเปกคุ้มค่า ทัชดี" },
+            { name: "OPPO Reno Series / realme GT Series", brand: "OPPO", gen: "ดีไซน์สวย ทัชสกรีนเสถียร" },
+            { name: "OnePlus 12 / 13", brand: "OPPO", gen: "เรือธงสเปกเกมมิ่ง" },
+            { name: "vivo V Series / iQOO 12", brand: "vivo", gen: "เกมมิ่งโฟน / จอคมชัด" },
+            { name: "RedMagic 9 Pro / 10 Pro", brand: "Other", gen: "เกมมิ่งโฟนแท้ 100% ตัวท็อป" },
+            { name: "Tecno Pova / Spark Series", brand: "Other", gen: "งบประหยัด สเปกคุ้ม" }
+        ];
+
+        const sensitivityTypes = [
+            { title: "1. สายลากหัวระยะประชิด (Shotgun / Close Range)", gen: "190-200", red: "95-100", s2: "90-95", s4: "85-90", sniper: "60-70" },
+            { title: "2. สายสมดุลรอบด้าน (All-Rounder)", gen: "175-185", red: "88-95", s2: "80-85", s4: "75-80", sniper: "50-60" },
+            { title: "3. สายสโคปไกล / คุมปืนนิ่ง (Long Range)", gen: "160-170", red: "80-88", s2: "70-75", s4: "65-70", sniper: "40-50" },
+            { title: "4. สายจอเรตสูง / เรือธง (High Refresh Rate 90-120Hz)", gen: "170-180", red: "85-92", s2: "75-80", s4: "70-75", sniper: "45-55" },
+            { title: "5. สายแก้จอหน่วง / เครื่องสเปกเริ่มต้น (Low-End)", gen: "195-200", red: "95-100", s2: "90-95", s4: "85-90", sniper: "65-75" }
+        ];
+
+        let currentBrand = 'all';
+        let searchQuery = '';
+
+        function renderModels() {
+            const container = document.getElementById('modelContainer');
+            container.innerHTML = '';
+
+            const filtered = modelsData.filter(item => {
+                const matchBrand = currentBrand === 'all' || item.brand === currentBrand;
+                const matchSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || item.brand.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchBrand && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center py-10 text-gray-400">ไม่พบรุ่นที่คุณค้นหา ลองเปลี่ยนคำค้นหาดูครับ</div>`;
+                return;
+            }
+
+            filtered.forEach((model) => {
+                let cardHTML = `
+                    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-xl transition hover:border-red-600">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 pb-3 border-b border-gray-800 gap-2">
+                            <div>
+                                <span class="bg-red-600/20 text-red-400 text-xs px-2.5 py-1 rounded-full font-semibold border border-red-500/30">${model.brand}</span>
+                                <h2 class="text-xl font-bold text-white mt-1">${model.name}</h2>
+                                <p class="text-xs text-gray-400">${model.gen}</p>
+                            </div>
+                            <span class="text-xs bg-gray-800 px-3 py-1.5 rounded-lg text-gray-300">มีตั้งค่า 5 สไตล์</span>
+                        </div>
+
+                        <div class="space-y-3">
+                `;
+
+                sensitivityTypes.forEach((st) => {
+                    cardHTML += `
+                        <div class="bg-gray-950 p-4 rounded-xl border border-gray-800/80">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-semibold text-yellow-400">${st.title}</span>
+                                <button onclick="copyValues('${model.name}', '${st.title}', '${st.gen}', '${st.red}', '${st.s2}', '${st.s4}', '${st.sniper}')" class="text-xs bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded transition font-medium cursor-pointer">คัดลอกค่า</button>
+                            </div>
+                            <div class="grid grid-cols-5 gap-2 text-center text-xs">
+                                <div class="bg-gray-900 p-2 rounded"><span class="block text-gray-500 text-[10px]">ทั่วไป</span><strong class="text-white">${st.gen}</strong></div>
+                                <div class="bg-gray-900 p-2 rounded"><span class="block text-gray-500 text-[10px]">Red Dot</span><strong class="text-white">${st.red}</strong></div>
+                                <div class="bg-gray-900 p-2 rounded"><span class="block text-gray-500 text-[10px]">2x</span><strong class="text-white">${st.s2}</strong></div>
+                                <div class="bg-gray-900 p-2 rounded"><span class="block text-gray-500 text-[10px]">4x</span><strong class="text-white">${st.s4}</strong></div>
+                                <div class="bg-gray-900 p-2 rounded"><span class="block text-gray-500 text-[10px]">สไนเปอร์</span><strong class="text-white">${st.sniper}</strong></div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                cardHTML += `
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        function filterBrand(brand, event) {
+            currentBrand = brand;
+            document.querySelectorAll('.brand-btn').forEach(btn => {
+                btn.classList.remove('bg-red-600', 'text-white');
+                btn.classList.add('bg-gray-800', 'text-gray-300');
+            });
+            event.target.classList.remove('bg-gray-800', 'text-gray-300');
+            event.target.classList.add('bg-red-600', 'text-white');
+            renderModels();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderModels();
+        });
+
+        function copyValues(modelName, styleName, gen, red, s2, s4, sniper) {
+            const text = `[Free Fire Setting] ${modelName} - ${styleName}\nทั่วไป: ${gen} | Red Dot: ${red} | 2x: ${s2} | 4x: ${s4} | สไนเปอร์: ${sniper}`;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('คัดลอกค่าความไวของ ' + modelName + ' เรียบร้อยแล้ว!');
+            });
+        }
+
+        renderModels();
+    </script>
+</body>
+  </html>
+
+
